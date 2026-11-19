@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,11 +9,10 @@
     /* =========================================
        1. CSS VARIABLES (DARK & LIGHT THEMES)
     ========================================= */
-    :root,
-    [data-theme="dark"] {
+    :root {
       --bg-dark: #090a14;
-      --bg-header: rgba(9, 10, 20, 0.85);
       --bg-card: rgba(18, 21, 41, 0.78);
+      --header-bg: rgba(9, 10, 20, 0.85);
       --neon-pink: #ff2a85;
       --neon-cyan: #00f3ff;
       --neon-purple: #9d4edd;
@@ -21,48 +20,35 @@
       --text-main: #f0f4ff;
       --text-muted: #9aa5ce;
       --border-glow: rgba(0, 243, 255, 0.35);
-      --card-hover-shadow: 0 10px 30px rgba(0, 243, 255, 0.16);
+      --grid-line: rgba(0, 243, 255, 0.03);
+      --stat-border: rgba(255, 255, 255, 0.07);
+      --bar-bg: rgba(255, 255, 255, 0.08);
       --tag-bg: rgba(157, 78, 221, 0.2);
-      --tag-border: rgba(157, 78, 221, 0.5);
       --tag-text: #e0aaff;
-      --progress-track: rgba(255, 255, 255, 0.08);
-      --divider-line: rgba(255, 255, 255, 0.07);
-      --level-badge-bg: #090a14;
-      --bg-layers:
-        radial-gradient(circle at 15% 20%, rgba(157, 78, 221, 0.16), transparent 35%),
-        radial-gradient(circle at 85% 75%, rgba(255, 42, 133, 0.14), transparent 35%),
-        linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+      --level-bg: #090a14;
+      --highlight-shadow: 0 0 25px rgba(255, 42, 133, 0.35);
     }
 
-    [data-theme="light"] {
+    body.light-mode {
       --bg-dark: #fff5f8;
-      --bg-header: rgba(255, 247, 250, 0.88);
-      --bg-card: rgba(255, 255, 255, 0.86);
-      --neon-pink: #d91b6b;
-      --neon-cyan: #0088b8;
+      --bg-card: rgba(255, 255, 255, 0.88);
+      --header-bg: rgba(255, 245, 248, 0.88);
+      --neon-pink: #e61e6e;
+      --neon-cyan: #0088cc;
       --neon-purple: #7b2cbf;
-      --sakura-pink: #c93b6b;
-      --text-main: #1b1730;
-      --text-muted: #555075;
-      --border-glow: rgba(217, 27, 107, 0.25);
-      --card-hover-shadow: 0 10px 28px rgba(217, 27, 107, 0.14);
-      --tag-bg: rgba(123, 44, 191, 0.1);
-      --tag-border: rgba(123, 44, 191, 0.32);
-      --tag-text: #5a189a;
-      --progress-track: rgba(27, 23, 48, 0.1);
-      --divider-line: rgba(27, 23, 48, 0.09);
-      --level-badge-bg: #ffffff;
-      --bg-layers:
-        radial-gradient(circle at 15% 18%, rgba(255, 183, 197, 0.45), transparent 38%),
-        radial-gradient(circle at 86% 76%, rgba(168, 230, 255, 0.35), transparent 38%),
-        linear-gradient(rgba(217, 27, 107, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(217, 27, 107, 0.04) 1px, transparent 1px);
+      --sakura-pink: #d63384;
+      --text-main: #1b1e36;
+      --text-muted: #4e5675;
+      --border-glow: rgba(230, 30, 110, 0.28);
+      --grid-line: rgba(230, 30, 110, 0.045);
+      --stat-border: rgba(27, 30, 54, 0.08);
+      --bar-bg: rgba(27, 30, 54, 0.1);
+      --tag-bg: rgba(123, 44, 191, 0.12);
+      --tag-text: #6a1b9a;
+      --level-bg: #ffffff;
+      --highlight-shadow: none;
     }
 
-    /* =========================================
-       2. RESET & BASE STYLES
-    ========================================= */
     * {
       margin: 0;
       padding: 0;
@@ -76,13 +62,17 @@
       font-family: 'Poppins', sans-serif;
       overflow-x: hidden;
       line-height: 1.6;
-      background-image: var(--bg-layers);
-      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
       transition: background-color 0.35s ease, color 0.35s ease;
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(157, 78, 221, 0.14), transparent 35%),
+        radial-gradient(circle at 85% 75%, rgba(255, 42, 133, 0.12), transparent 35%),
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
     }
 
     /* =========================================
-       3. FALLING SAKURA PETALS ANIMATION
+       2. FALLING SAKURA PETALS ANIMATION
     ========================================= */
     .sakura-container {
       position: fixed;
@@ -130,14 +120,14 @@
     }
 
     /* =========================================
-       4. NAVIGATION BAR & THEME SWITCH
+       3. NAVIGATION BAR & THEME SWITCH
     ========================================= */
     header {
       position: sticky;
       top: 0;
       z-index: 100;
       backdrop-filter: blur(12px);
-      background: var(--bg-header);
+      background: var(--header-bg);
       border-bottom: 1px solid var(--border-glow);
       transition: background 0.35s ease, border-color 0.35s ease;
     }
@@ -159,7 +149,6 @@
       letter-spacing: 2px;
       color: var(--neon-cyan);
       text-shadow: 0 0 10px rgba(0, 243, 255, 0.35);
-      white-space: nowrap;
     }
 
     .logo span {
@@ -175,19 +164,18 @@
     .nav-links {
       list-style: none;
       display: flex;
-      gap: 1.5rem;
+      gap: 1.6rem;
     }
 
     .nav-links a {
       text-decoration: none;
       color: var(--text-main);
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
+      letter-spacing: 1px;
       position: relative;
       transition: color 0.3s ease;
-      white-space: nowrap;
     }
 
     .nav-links a::after {
@@ -209,32 +197,32 @@
       width: 100%;
     }
 
-    /* Dark / Light Mode Toggle Button */
+    /* Dark / Light Mode Toggle Switch */
     .theme-toggle {
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
-      padding: 0.42rem 0.85rem;
-      border-radius: 999px;
-      border: 1.5px solid var(--border-glow);
       background: var(--bg-card);
+      border: 1.5px solid var(--neon-cyan);
       color: var(--text-main);
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.78rem;
       font-weight: 600;
+      padding: 0.4rem 0.85rem;
+      border-radius: 20px;
       cursor: pointer;
-      transition: all 0.25s ease;
-      white-space: nowrap;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 12px rgba(0, 243, 255, 0.2);
     }
 
     .theme-toggle:hover {
-      border-color: var(--neon-cyan);
-      box-shadow: 0 0 14px rgba(0, 243, 255, 0.25);
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      border-color: var(--neon-pink);
+      box-shadow: 0 0 15px rgba(255, 42, 133, 0.35);
     }
 
     /* =========================================
-       5. HERO SECTION & ANIME AVATAR RING
+       4. HERO SECTION & ANIME AVATAR RING
     ========================================= */
     main {
       position: relative;
@@ -268,7 +256,7 @@
 
     .hero h1 {
       font-family: 'Orbitron', sans-serif;
-      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      font-size: clamp(2.1rem, 4.3vw, 3.5rem);
       font-weight: 900;
       line-height: 1.15;
       margin-bottom: 1rem;
@@ -278,11 +266,12 @@
       background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      text-shadow: var(--highlight-shadow);
     }
 
     .typing-subtitle {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 1.08rem;
+      font-size: 1.05rem;
       color: var(--sakura-pink);
       margin-bottom: 1.2rem;
       border-right: 2px solid var(--neon-cyan);
@@ -334,7 +323,7 @@
 
     .btn-primary:hover {
       transform: translateY(-3px);
-      box-shadow: 0 0 28px rgba(255, 42, 133, 0.65);
+      box-shadow: 0 0 30px rgba(255, 42, 133, 0.65);
     }
 
     .btn-outline {
@@ -346,7 +335,7 @@
     .btn-outline:hover {
       background: rgba(0, 243, 255, 0.12);
       transform: translateY(-3px);
-      box-shadow: 0 0 20px rgba(0, 243, 255, 0.25);
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
     }
 
     /* Profile Picture Frame with Orbiting Rings */
@@ -406,16 +395,16 @@
       border-radius: 50%;
       object-fit: cover;
       border: 4px solid var(--neon-pink);
-      box-shadow: 0 0 30px rgba(255, 42, 133, 0.35), inset 0 0 20px rgba(0, 243, 255, 0.25);
+      box-shadow: 0 0 30px rgba(255, 42, 133, 0.45);
       z-index: 2;
-      background-color: var(--bg-card);
+      background-color: #161936;
     }
 
     .level-tag {
       position: absolute;
       bottom: 12px;
       z-index: 3;
-      background: var(--level-badge-bg);
+      background: var(--level-bg);
       border: 1.5px solid var(--neon-cyan);
       color: var(--neon-cyan);
       font-family: 'Orbitron', sans-serif;
@@ -423,7 +412,8 @@
       font-weight: 700;
       padding: 0.25rem 0.85rem;
       border-radius: 20px;
-      box-shadow: 0 0 12px rgba(0, 243, 255, 0.35);
+      box-shadow: 0 0 12px rgba(0, 243, 255, 0.4);
+      transition: background 0.35s ease;
     }
 
     .upload-label {
@@ -447,10 +437,10 @@
     }
 
     /* =========================================
-       6. SECTION HEADERS, HUD CARDS & EDUCATION
+       5. SECTION HEADERS & HUD CARDS
     ========================================= */
     section {
-      padding: 4rem 0;
+      padding: 4.5rem 0;
     }
 
     .section-title {
@@ -488,19 +478,19 @@
       padding: 1.8rem;
       backdrop-filter: blur(10px);
       position: relative;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.35s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.35s ease, border-color 0.35s ease;
     }
 
     .hud-card:hover {
       transform: translateY(-5px);
-      box-shadow: var(--card-hover-shadow);
+      box-shadow: 0 10px 30px rgba(0, 243, 255, 0.14);
       border-color: var(--neon-cyan);
     }
 
     .hud-card h3 {
       font-family: 'Orbitron', sans-serif;
       color: var(--neon-cyan);
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
       font-size: 1.15rem;
     }
 
@@ -515,9 +505,9 @@
     .stat-list li {
       display: flex;
       justify-content: space-between;
-      gap: 1rem;
-      border-bottom: 1px solid var(--divider-line);
+      border-bottom: 1px solid var(--stat-border);
       padding-bottom: 0.45rem;
+      gap: 1rem;
     }
 
     .stat-label {
@@ -530,36 +520,68 @@
       text-align: right;
     }
 
-    /* Educational Background Timeline */
+    /* =========================================
+       6. EDUCATIONAL BACKGROUND TIMELINE
+    ========================================= */
     .edu-timeline {
+      position: relative;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.6rem;
+      padding-left: 1.8rem;
+      border-left: 2px solid var(--neon-cyan);
+    }
+
+    .edu-item {
+      position: relative;
+    }
+
+    .edu-item::before {
+      content: '';
+      position: absolute;
+      left: -2.35rem;
+      top: 1.6rem;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--neon-pink);
+      border: 3px solid var(--bg-dark);
+      box-shadow: 0 0 12px var(--neon-pink);
+      transition: border-color 0.35s ease;
+    }
+
+    .edu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 0.5rem;
     }
 
     .edu-year {
-      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--neon-cyan);
+      background: rgba(0, 243, 255, 0.1);
+      border: 1px solid var(--neon-cyan);
+      padding: 0.2rem 0.7rem;
+      border-radius: 4px;
+    }
+
+    .edu-level {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.78rem;
-      font-weight: 600;
       color: var(--neon-pink);
-      background: rgba(255, 42, 133, 0.1);
-      border: 1px solid rgba(255, 42, 133, 0.35);
-      padding: 0.22rem 0.65rem;
-      border-radius: 4px;
-      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .edu-school {
       font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 0.45rem;
+      color: var(--sakura-pink);
+      margin-bottom: 0.4rem;
       font-size: 0.98rem;
-    }
-
-    .edu-desc {
-      color: var(--text-muted);
-      font-size: 0.9rem;
     }
 
     /* =========================================
@@ -582,7 +604,7 @@
     .progress-bar {
       width: 100%;
       height: 10px;
-      background: var(--progress-track);
+      background: var(--bar-bg);
       border-radius: 20px;
       overflow: hidden;
       margin-bottom: 1.2rem;
@@ -592,7 +614,7 @@
       height: 100%;
       border-radius: 20px;
       background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
-      box-shadow: 0 0 10px rgba(0, 243, 255, 0.45);
+      box-shadow: 0 0 10px var(--neon-cyan);
       animation: fillBar 1.8s ease-out forwards;
     }
 
@@ -630,7 +652,7 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
       background: var(--tag-bg);
-      border: 1px solid var(--tag-border);
+      border: 1px solid rgba(157, 78, 221, 0.45);
       color: var(--tag-text);
       padding: 0.2rem 0.6rem;
       border-radius: 4px;
@@ -665,13 +687,7 @@
     /* =========================================
        10. RESPONSIVE DESIGN
     ========================================= */
-    @media (max-width: 960px) {
-      .nav-links {
-        display: none;
-      }
-    }
-
-    @media (max-width: 850px) {
+    @media (max-width: 900px) {
       .hero {
         grid-template-columns: 1fr;
         text-align: center;
@@ -692,6 +708,9 @@
       }
       .about-grid {
         grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none;
       }
     }
   </style>
@@ -720,13 +739,13 @@
           <li><a href="#home">Home</a></li>
           <li><a href="#about">Character</a></li>
           <li><a href="#education">Education</a></li>
-          <li><a href="#skills">Skill Tree</a></li>
+          <li><a href="#skills">Skills</a></li>
           <li><a href="#projects">Quests</a></li>
           <li><a href="#contact">Guild</a></li>
         </ul>
-        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle Dark or Light Mode">
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark or light mode">
           <span id="themeIcon">☀️</span>
-          <span id="themeLabel">Light Mode</span>
+          <span id="themeText">LIGHT MODE</span>
         </button>
       </div>
     </nav>
@@ -740,7 +759,7 @@
         <h1>Hi, I'm <span class="highlight">Noriezel A. Mayores</span></h1>
         <div class="typing-subtitle">Aspiring Software Engineer & Anime Enthusiast</div>
         <p>
-          Welcome to my digital realm! I am a freshman Bachelor of Science in Information Technology (BSIT) student passionate about web development, clean code, and building creative projects inspired by anime aesthetics.
+          Welcome to my digital realm! I am a freshman Bachelor of Science in Information Technology (BSIT) student at Mindoro State University passionate about web development, clean code, and building creative projects inspired by anime aesthetics.
         </p>
         <div class="hero-buttons">
           <a href="#projects" class="btn btn-primary">View My Quests</a>
@@ -753,12 +772,12 @@
         <div class="avatar-frame">
           <div class="orbit-ring-1"></div>
           <div class="orbit-ring-2"></div>
+          <!-- Replace src with your relative image filename, e.g. src="profile.jpg" -->
           <img
-            id="c:\Users\mayor\OneDrive\Desktop\Screenshot_20251023_121656_com_ss_android_ugc_trill_SAAActivity.jpg"
+            id="profileImage"
             class="profile-pic"
-            src="c:\Users\mayor\OneDrive\Desktop\Screenshot_20251023_121656_com_ss_android_ugc_trill_SAAActivity.jpg"
-            alt="c:\Users\mayor\OneDrive\Desktop\Screenshot_20251023_121656_com_ss_android_ugc_trill_SAAActivity.jpg"
-            onerror="this.onerror=null;this.src='c:\Users\mayor\OneDrive\Desktop\Screenshot_20251023_121656_com_ss_android_ugc_trill_SAAActivity.jpg';"
+            src="images/profile.jpg"
+            alt="BSIT Student Profile Picture"
           />
           <div class="level-tag">LVL 01 • BSIT</div>
         </div>
@@ -767,7 +786,7 @@
       </div>
     </section>
 
-    <!-- About / RPG Character Stats Section -->
+    <!-- 01. About / RPG Character Stats Section -->
     <section id="about">
       <h2 class="section-title"><span>01.</span> CHARACTER PROFILE</h2>
       <div class="about-grid">
@@ -794,40 +813,51 @@
       </div>
     </section>
 
-    <!-- Educational Background Section -->
+    <!-- 02. Educational Background Section -->
     <section id="education">
       <h2 class="section-title"><span>02.</span> EDUCATIONAL BACKGROUND</h2>
       <div class="edu-timeline">
-        <div class="hud-card">
-          <span class="edu-year">2026 – Present • Current</span>
-          <h3>BS in Information Technology</h3>
-          <p class="edu-school">College of Computer Studies (1st Year)</p>
-          <p class="edu-desc">
-            Building core foundations in computer programming, algorithmic thinking, web markup & styling, and computer hardware/system fundamentals.
+        
+        <div class="hud-card edu-item">
+          <div class="edu-header">
+            <span class="edu-level">Tertiary • Current Quest</span>
+            <span class="edu-year">2026 – Present</span>
+          </div>
+          <h3>Bachelor of Science in Information Technology (BSIT)</h3>
+          <div class="edu-school">College of Computer Studies (1st Year Freshman)</div>
+          <p style="color: var(--text-muted); font-size: 0.92rem;">
+            Focused on foundational computer programming, logic formulation, web systems and technologies, and modern frontend development.
           </p>
         </div>
 
-        <div class="hud-card">
-          <span class="edu-year">Senior High School</span>
-          <h3>Secondary Education — Senior High</h3>
-          <p class="edu-school">Computer System Servicing Strand</p>
-          <p class="edu-desc">
-            Developed strong research habits, digital literacy, teamwork, and creative problem-solving skills that sparked my interest in tech and web design.
+        <div class="hud-card edu-item">
+          <div class="edu-header">
+            <span class="edu-level">Senior High School</span>
+            <span class="edu-year">2023 – 2025</span>
+          </div>
+          <h3>TVL – Information and Communications Technology (ICT) / Computer System Servicing</h3>
+          <div class="edu-school">Senior High School Department</div>
+          <p style="color: var(--text-muted); font-size: 0.92rem;">
+            Completed foundational coursework in basic HTML/CSS, computer hardware servicing, digital literacy, and collaborative capstone research.
           </p>
         </div>
 
-        <div class="hud-card">
-          <span class="edu-year">Junior High School</span>
-          <h3>Secondary Education — Junior High</h3>
-          <p class="edu-school">Junior High School Department</p>
-          <p class="edu-desc">
-            Completed foundational academic coursework while cultivating curiosity for computers, multimedia editing, and anime-inspired visual art.
+        <div class="hud-card edu-item">
+          <div class="edu-header">
+            <span class="edu-level">Junior High School</span>
+            <span class="edu-year">2019 – 2023</span>
+          </div>
+          <h3>Secondary Education</h3>
+          <div class="edu-school">National High School</div>
+          <p style="color: var(--text-muted); font-size: 0.92rem;">
+            Graduated with strong interest in mathematics, science, digital arts, and campus technology clubs.
           </p>
         </div>
+
       </div>
     </section>
 
-    <!-- Skills Section -->
+    <!-- 03. Skills Section -->
     <section id="skills">
       <h2 class="section-title"><span>03.</span> SKILL TREE</h2>
       <div class="skills-grid">
@@ -857,7 +887,7 @@
       </div>
     </section>
 
-    <!-- Projects Section -->
+    <!-- 04. Projects Section -->
     <section id="projects">
       <h2 class="section-title"><span>04.</span> COMPLETED QUESTS</h2>
       <div class="projects-grid">
@@ -891,18 +921,18 @@
           <span class="quest-tag">Quest #03 • UI/UX</span>
           <h3>Cyber-Sakura Portfolio</h3>
           <p style="color: var(--text-muted); font-size: 0.92rem;">
-            My personal responsive portfolio website featuring pure CSS keyframe animations, neon HUD cards, sakura particle effects, and theme switching.
+            My personal responsive portfolio website featuring pure CSS keyframe animations, neon HUD cards, theme switching, and sakura particle effects.
           </p>
           <div class="tech-tags">
             <span>HTML5</span>
             <span>Keyframe CSS</span>
-            <span>Responsive</span>
+            <span>Dark/Light Mode</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- 05. Contact Section -->
     <section id="contact">
       <h2 class="section-title"><span>05.</span> SUMMON / CONTACT</h2>
       <div class="hud-card contact-box">
@@ -912,59 +942,19 @@
         </p>
         <div class="social-links">
           <a href="mailto:nhamimayores04@email.com" class="btn btn-primary">Email Me</a>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline">GitHub</a>
-          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Facebook</a>
+          <a href="https://github.com" target="_blank" class="btn btn-outline">GitHub</a>
+          <a href="https://facebook.com" target="_blank" class="btn btn-outline">Facebook</a>
         </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>Crafted with 💻 & ✨ by a 1st Year BSIT Student • © 2026</p>
+    <p>Crafted with 💻 & ✨ by Noriezel A. Mayores • 1st Year BSIT Student • © 2026</p>
   </footer>
 
   <script>
-    // Dark / Light Mode Toggle with localStorage persistence
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
-    const themeLabel = document.getElementById('themeLabel');
-    const rootEl = document.documentElement;
-
-    function applyTheme(theme) {
-      rootEl.setAttribute('data-theme', theme);
-      try {
-        localStorage.setItem('bsit-portfolio-theme', theme);
-      } catch (err) {
-        // Ignore storage errors in restricted contexts
-      }
-
-      if (theme === 'light') {
-        themeIcon.textContent = '🌙';
-        themeLabel.textContent = 'Dark Mode';
-      } else {
-        themeIcon.textContent = '☀️';
-        themeLabel.textContent = 'Light Mode';
-      }
-    }
-
-    // Load saved theme preference
-    let savedTheme = 'dark';
-    try {
-      const stored = localStorage.getItem('bsit-portfolio-theme');
-      if (stored === 'light' || stored === 'dark') {
-        savedTheme = stored;
-      }
-    } catch (err) {
-      savedTheme = 'dark';
-    }
-    applyTheme(savedTheme);
-
-    themeToggle.addEventListener('click', () => {
-      const currentTheme = rootEl.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-      applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
-    });
-
-    // Instant Profile Photo Preview
+    // 1. Instant Profile Photo Preview
     const photoInput = document.getElementById('photoInput');
     const profileImage = document.getElementById('profileImage');
 
@@ -973,6 +963,34 @@
       if (file) {
         profileImage.src = URL.createObjectURL(file);
       }
+    });
+
+    // 2. Dark / Light Mode Toggle with localStorage Persistence
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeText = document.getElementById('themeText');
+
+    function applyTheme(mode) {
+      if (mode === 'light') {
+        document.body.classList.add('light-mode');
+        themeIcon.textContent = '🌙';
+        themeText.textContent = 'DARK MODE';
+      } else {
+        document.body.classList.remove('light-mode');
+        themeIcon.textContent = '☀️';
+        themeText.textContent = 'LIGHT MODE';
+      }
+    }
+
+    // Load saved theme preference
+    const savedTheme = localStorage.getItem('bsit-portfolio-theme') || 'dark';
+    applyTheme(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      const isLight = document.body.classList.contains('light-mode');
+      const nextTheme = isLight ? 'dark' : 'light';
+      localStorage.setItem('bsit-portfolio-theme', nextTheme);
+      applyTheme(nextTheme);
     });
   </script>
 </body>
